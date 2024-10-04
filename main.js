@@ -1,22 +1,47 @@
-async function getData(){
+async function getData() {
 
     try {
-      
-        let response = await fetch("https://jsonplaceholder.typicode.com/posts?userId=1")
-        let responseBody = await response.json()
-        
-        renderTable(responseBody)
 
-    } catch(err){
-        
+        let response = await fetch("https://jsonplaceholder.typicode.com/comments")
+        let responseBody = await response.json()
+
+        createTableGrid(responseBody)
+
+    } catch (err) {
+
         console.log(err)
 
     }
 
-    
+
 }
 
-function renderTable(responseBody){
+function createTableGrid(responseBody) {
+
+    let table = new gridjs.Grid({
+        columns : ['Post Id', 'Id', 'Name', 'Email', 'Body'],
+        data: responseBody,
+        pagination: {
+            limit: 5,
+            summary: true
+        }, 
+        style : {
+            th : {
+                'background-color' : '#3483eb', 
+                'color': '#484e57'
+            }
+        },
+        search : true, 
+        sort : true
+    })
+    let tableOutput = document.getElementById("myData")
+    table.render(tableOutput)
+
+}
+
+
+getData()
+/*function renderTable(responseBody){
 
     let tableLayOut = ` <tr>
                             <th>User Id</th>
@@ -36,6 +61,6 @@ function renderTable(responseBody){
     }
 
     myData.innerHTML = tableLayOut
-}
+}*/
 
 
